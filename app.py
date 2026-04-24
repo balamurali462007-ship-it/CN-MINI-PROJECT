@@ -1,6 +1,8 @@
 from flask import Flask, request, jsonify, render_template
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)
 
 # Basic Networking Constants for simulation (simplified for Viva explanation)
 # Bandwidth mapping: Low (1 Mbps), Medium (10 Mbps), High (100 Mbps)
