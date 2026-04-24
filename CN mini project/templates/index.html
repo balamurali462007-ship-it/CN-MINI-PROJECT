@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Protocol Performance Simulator</title>
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- GSAP for Animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+</head>
+<body>
+
+    <!-- Background Gradient -->
+    <div class="bg-gradient"></div>
+
+    <div class="container">
+        <!-- Header -->
+        <header class="header slide-up">
+            <h1>Protocol Simulator</h1>
+            <p>Analyze TCP, UDP, HTTP, and HTTPS behavior in real-time.</p>
+        </header>
+
+        <div class="grid-layout">
+            
+            <!-- Setup & Control Panel -->
+            <aside class="glass-panel slide-up delay-1">
+                <h2>Network Conditions</h2>
+                
+                <div class="control-group">
+                    <label>Bandwidth</label>
+                    <select id="bandwidth-select">
+                        <option value="low">Low (1 Mbps)</option>
+                        <option value="medium" selected>Medium (10 Mbps)</option>
+                        <option value="high">High (100 Mbps)</option>
+                    </select>
+                </div>
+
+                <div class="control-group">
+                    <label>Packet Loss: <span id="loss-val">0</span>%</label>
+                    <input type="range" id="packet-loss-slider" min="0" max="20" step="1" value="0">
+                    <div class="slider-labels">
+                        <span>0%</span>
+                        <span>20%</span>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label>Base Propagation Delay: <span id="lat-val">50</span>ms</label>
+                    <input type="range" id="latency-slider" min="10" max="200" step="10" value="50">
+                    <div class="slider-labels">
+                        <span>10ms</span>
+                        <span>200ms</span>
+                    </div>
+                </div>
+
+                <h2 class="mt-4">Scenarios</h2>
+                <div class="scenario-buttons">
+                    <button class="scenario-btn active" data-scenario="video">🎥 Video Stream</button>
+                    <button class="scenario-btn" data-scenario="file">📁 File Transfer</button>
+                    <button class="scenario-btn" data-scenario="chat">💬 Live Chat</button>
+                </div>
+            </aside>
+
+            <!-- Main Viewing Area -->
+            <main class="main-content slide-up delay-2">
+                
+                <!-- AI Recommendation -->
+                <div class="ai-box glass-panel glowing-border">
+                    <div class="ai-header">
+                        <span class="ai-icon">✨</span>
+                        <h3>Explainable Rule-Based Recommendation</h3>
+                    </div>
+                    <h4 id="rec-protocol">Protocol: UDP</h4>
+                    <p id="rec-explanation">UDP is recommended for Video Streaming because...</p>
+                </div>
+
+                <!-- Topology Visualizer -->
+                <div class="topology-box glass-panel mt-4">
+                    <h3>Topology Visualization</h3>
+                    <div class="topology-container">
+                        <div class="node sender">
+                            <div class="node-icon">💻</div>
+                            <span>Sender</span>
+                        </div>
+                        <div class="link link-left">
+                            <div class="packet packet-tx"></div>
+                            <div class="status-label" id="status-left"></div>
+                        </div>
+                        <div class="node router">
+                            <div class="node-icon">🌐</div>
+                            <span>Router</span>
+                        </div>
+                        <div class="link link-right">
+                             <div class="packet packet-rx"></div>
+                             <div class="packet packet-ack"></div>
+                             <div class="status-label" id="status-right"></div>
+                        </div>
+                        <div class="node receiver">
+                            <div class="node-icon">🖥️</div>
+                            <span>Receiver</span>
+                            <div class="lock-icon" id="tls-lock">🔒</div>
+                        </div>
+                    </div>
+                    <div class="viz-controls mt-2">
+                         <button id="btn-animate-tcp" class="sim-btn">Animate TCP Flow</button>
+                         <button id="btn-animate-udp" class="sim-btn">Animate UDP Flow</button>
+                         <button id="btn-animate-http" class="sim-btn">Animate HTTP Flow</button>
+                         <button id="btn-animate-https" class="sim-btn">Animate HTTPS Flow</button>
+                    </div>
+                </div>
+
+                <!-- Dashboard (Charts) -->
+                <div class="dashboard-grid mt-4">
+                    <div class="glass-panel chart-container">
+                        <h3>Latency (ms)</h3>
+                        <canvas id="latencyChart"></canvas>
+                    </div>
+                    <div class="glass-panel chart-container">
+                        <h3>Throughput (kbps)</h3>
+                        <canvas id="throughputChart"></canvas>
+                    </div>
+                </div>
+
+            </main>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>
