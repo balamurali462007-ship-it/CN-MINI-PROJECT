@@ -16,7 +16,7 @@ PACKET_SIZE_BITS = 12000
 @app.route('/')
 def index():
     # Will serve the index.html once created
-    return render_template('index.html')
+    return return "Backend Running Successfully"
 
 @app.route('/simulate', methods=['POST'])
 def simulate():
